@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\API\v1;
 
 use App\Models\Booking;
+use App\Jobs\BookingJob;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\BookingRequest;
 use App\Http\Resources\v1\BookingResource;
 use App\Http\Resources\v1\BookingCollection;
 
@@ -16,8 +18,10 @@ class BookingController extends Controller
         return new BookingCollection(Booking::all());
     }
 
-    public function store(Request $request)
+    public function store(BookingRequest $request)
     {
+        $this->dispatchSync(BookingJob::fromRequest($request));
+
         $this->validate($request, [
             'property_id'     => ['required'],
         ]);
