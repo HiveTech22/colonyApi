@@ -12,15 +12,11 @@ use App\Http\Resources\v1\PropertyCollection;
 
 class PropertyController extends Controller
 {
-   
-    // public function __construct()
-    // {
-    //     $this->middleware(['auth', 'verified']);
-    // }
 
-    public function index()
+    public function index(Request $request)
     {
-        return new PropertyCollection(Property::where('isAvailable', true)->inRandomOrder()->paginate(5));
+        $pageSize = $request->page ?? 5;
+        return new PropertyCollection(Property::query()->where('isAvailable', true)->inRandomOrder()->paginate($pageSize));
     }
 
 
