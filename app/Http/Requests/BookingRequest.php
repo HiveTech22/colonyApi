@@ -25,7 +25,7 @@ class BookingRequest extends FormRequest
     {
         return [
             'property_id'         => 'required',
-            'user_id'             => 'required',
+            'author_id'             => 'required',
         ];
     }
 

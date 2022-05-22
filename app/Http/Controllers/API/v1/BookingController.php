@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\v1;
 use App\Models\Booking;
 use App\Jobs\BookingJob;
 use Illuminate\Http\Request;
+use App\Events\BookingCreated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BookingRequest;
 use App\Http\Resources\v1\BookingResource;
@@ -18,22 +19,30 @@ class BookingController extends Controller
         return new BookingCollection(Booking::all());
     }
 
-    public function store(BookingRequest $request)
+    public function store(Request $request)
     {
-        $this->dispatchSync(BookingJob::fromRequest($request));
-
         $this->validate($request, [
             'property_id'     => ['required'],
         ]);
 
-        $booking = Booking::create([
-            'property_id'       => $request->input('property_id'),
-            'author_id'         => auth()->id() ?? 1
-        ]);
-        
-        return (new BookingResource($booking))
-        ->response()
-        ->setStatusCode(201);
+        try {
+            $booking = Booking::create([
+                'property_id'       => $request->input('property_id'),
+                'author_id'         => $request->input('author_id')
+            ]);
+    
+            event(new BookingCreated($booking));
+            
+            return (new BookingResource($booking))
+            ->response()
+            ->setStatusCode(201);
+
+        } catch (\Exception $e) {
+            \Log::error($e->getMessage());
+            return response()->json([
+                'message'=>'Something went wrong while booking this property!!'
+            ],500);
+        }
     }
 
     public function show(Booking $booking)

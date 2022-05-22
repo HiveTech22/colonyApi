@@ -20,7 +20,7 @@ class PropertyController extends Controller
 
     public function index()
     {
-        return new PropertyCollection(Property::where('isAvailable', true)->get());
+        return new PropertyCollection(Property::where('isAvailable', true)->inRandomOrder()->paginate(5));
     }
 
 

@@ -74,6 +74,9 @@ class PropertySeeder extends Seeder
                 1,
             ),
         ]); 
+
+        Property::factory()->count(10)->create(['author_id' => 1]);
+        Property::factory()->count(10)->create(['author_id' => 2]);
     }
 
     private function createProperty(
