@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers\API\v1;
 
+use App\Models\Review;
 use App\Models\Property;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Events\ReviewCreated;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ReviewRequest;
 use App\Http\Requests\PropertyRequest;
+use App\Http\Resources\v1\ReviewResource;
 use App\Http\Resources\v1\PropertyResource;
 use App\Http\Resources\v1\PropertyCollection;
 
@@ -79,20 +82,20 @@ class PropertyController extends Controller
         return response()->json(null, 204); //no content
     }
 
-    public function review(Request $request){
+    public function review(ReviewRequest $request){
         
-        $this->validate([
-            'rating' => 'nullable',
-            'message' => 'required',
-        ]);
-
         $review = Review::create([
             'rating' => $request->rating,
             'message' => $request->message,
+            'property_id' => $request->property_id,
             'author_id' => auth()->id(),
         ]);
 
         event(new ReviewCreated($review));
+
+        return (new ReviewResource($review))
+        ->response()->json()
+        ->setStatusCode(201);
 
     }
 }

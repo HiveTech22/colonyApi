@@ -16,8 +16,8 @@ class Review extends Model
     protected $table = self::TABLE;
 
     protected $fillable = [
-        'message',
         'rating',
+        'message',
         'property_id',
         'author_id'
     ];

@@ -21,23 +21,21 @@ class BookingController extends Controller
 
     public function store(Request $request)
     {
-        // dd($request);
         $this->validate($request, [
-            'author_id'     => ['required'],
             'property_id'     => ['required'],
         ]);
 
         try {
             $booking = Booking::create([
                 'property_id'       => $request->input('property_id'),
-                'author_id'         => $request->input('author_id')
+                'author_id'         => auth()->id(),
             ]);
     
-            // event(new BookingCreated($booking));
+            event(new BookingCreated($booking));
             
             return (new BookingResource($booking))
             ->response()->json([
-                'message'=>'You have successfully booked this property!!'
+                'message'=>'You have successfully booked this property!'
             ],204)
             ->setStatusCode(201);
 

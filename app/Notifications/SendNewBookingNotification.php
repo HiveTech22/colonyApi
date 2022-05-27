@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Models\User;
 use App\Models\Booking;
 use App\Mail\NewBookingEmail;
 use Illuminate\Bus\Queueable;
