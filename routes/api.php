@@ -11,6 +11,7 @@ Route::group(['prefix' => 'v1'], function () {
    
     //properties
     Route::apiResource('/properties', PropertyController::class);
+    Route::post('/reviews', [PropertyController::class, 'review'])->name('reviews');
 
     //bookings
     Route::resource('/bookings', BookingController::class);

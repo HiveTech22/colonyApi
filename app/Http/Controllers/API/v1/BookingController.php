@@ -21,7 +21,9 @@ class BookingController extends Controller
 
     public function store(Request $request)
     {
+        // dd($request);
         $this->validate($request, [
+            'author_id'     => ['required'],
             'property_id'     => ['required'],
         ]);
 
@@ -31,10 +33,12 @@ class BookingController extends Controller
                 'author_id'         => $request->input('author_id')
             ]);
     
-            event(new BookingCreated($booking));
+            // event(new BookingCreated($booking));
             
             return (new BookingResource($booking))
-            ->response()
+            ->response()->json([
+                'message'=>'You have successfully booked this property!!'
+            ],204)
             ->setStatusCode(201);
 
         } catch (\Exception $e) {

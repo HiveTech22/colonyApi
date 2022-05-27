@@ -5,8 +5,10 @@ namespace App\Http\Controllers\API\v1;
 use App\Models\Property;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Events\ReviewCreated;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PropertyRequest;
 use App\Http\Resources\v1\PropertyResource;
 use App\Http\Resources\v1\PropertyCollection;
 
@@ -20,13 +22,8 @@ class PropertyController extends Controller
     }
 
 
-    public function store(Request $request)
+    public function store(PropertyRequest $request)
     {
-        $this->validate($request, [
-            'title'           => ['required', 'max:30', 'unique:properties,title'],
-            'price'           => ['required'],
-            'description'     => ['required', 'min:5']
-        ]);
 
         $property = Property::create([
             'title'             =>$request->input('title'),
@@ -80,5 +77,22 @@ class PropertyController extends Controller
         $property->delete();
 
         return response()->json(null, 204); //no content
+    }
+
+    public function review(Request $request){
+        
+        $this->validate([
+            'rating' => 'nullable',
+            'message' => 'required',
+        ]);
+
+        $review = Review::create([
+            'rating' => $request->rating,
+            'message' => $request->message,
+            'author_id' => auth()->id(),
+        ]);
+
+        event(new ReviewCreated($review));
+
     }
 }

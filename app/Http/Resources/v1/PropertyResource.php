@@ -3,6 +3,7 @@
 namespace App\Http\Resources\v1;
 
 use App\Http\Resources\v1\AgentResource;
+use App\Http\Resources\v1\ReviewResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class PropertyResource extends JsonResource
@@ -42,6 +43,7 @@ class PropertyResource extends JsonResource
             ],
             'relationships'     => [
                   'agent'      => AgentResource::make($this->author()),
+                //   'reviews'    => ReviewResource::make($this->reviews),
             ],
             'links'             => [
                 'self'          => route('properties.show', $this->id()),

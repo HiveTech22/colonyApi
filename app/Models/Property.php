@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use App\Models\Review;
 use App\Cast\TitleCast;
 use App\Traits\HasAuthor;
+use App\Traits\HasReviews;
 use Illuminate\Support\Str;
 use App\Traits\ModelHelpers;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Property extends Model
@@ -200,6 +203,11 @@ class Property extends Model
     public function park(): bool
     {
         return $this->park;
+    }
+
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(Review::class);
     }
 
 }

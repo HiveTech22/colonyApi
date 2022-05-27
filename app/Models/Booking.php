@@ -21,7 +21,7 @@ class Booking extends Model
 
     protected $fillable = [
         'property_id',
-        'user_id',
+        'author_id',
         'isAccepted',
         'paymentStatus',
     ];
