@@ -10,13 +10,13 @@ class ReviewResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'type'          => 'reviews',
+            'type'          => 'review',
             'id'            => $this->id(),
-            'message'       => $this->message(),
-            'rating'        => $this->rating(),
-            'relationships'     => [
-                'author'      => UserResource::make($this->author()),
-            ],
+            // 'message'       => $this->message(),
+            // 'rating'        => $this->rating(),
+            // 'relationships'     => [
+            //     'author'      => UserResource::make($this->author()),
+            // ],
         ];
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Resources\v1;
 
 use App\Http\Resources\v1\AgentResource;
+use App\Http\Resources\v1\ReviewResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class PropertyResource extends JsonResource
@@ -41,6 +42,7 @@ class PropertyResource extends JsonResource
                 'created_at'    => $this->createdAt()
             ],
             'relationships'     => [
+                // 'review'      => ReviewResource::make($this->reviews),
                   'agent'      => AgentResource::make($this->author()),
             ],
             'links'             => [

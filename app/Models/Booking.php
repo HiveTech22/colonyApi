@@ -6,6 +6,7 @@ use App\Traits\HasUser;
 use App\Models\Property;
 use App\Models\Amenities;
 use App\Traits\HasAuthor;
+use App\Traits\HasUuid;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,6 +16,7 @@ class Booking extends Model
 {
     use HasFactory;
     use HasAuthor;
+    use HasUuid;
 
     const TABLE = 'bookings';
     protected $table = self::TABLE;
@@ -25,6 +27,12 @@ class Booking extends Model
         'isAccepted',
         'paymentStatus',
     ];
+
+    protected $primaryKey = 'uuid';
+
+    protected $keyType = 'string';
+
+    public $incrementing = false;
 
     protected $with = [
         'authorRelation', 'property'
@@ -42,7 +50,7 @@ class Booking extends Model
 
     public function id(): string
     {
-        return (string) $this->id;
+        return (string) $this->uuid;
     }
 
     public function createdAt()
