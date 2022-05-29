@@ -25,17 +25,7 @@ class BookingRequest extends FormRequest
     {
         return [
             'property_id'         => 'required',
-            'author_id'             => 'required',
         ];
     }
 
-    public function property(): int
-    {
-        return $this->get('property_id');
-    }
-
-    public function author(): int
-    {
-        return $this->get('user_id');
-    }
 }

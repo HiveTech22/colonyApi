@@ -6,8 +6,10 @@ use App\Models\Booking;
 use App\Jobs\BookingJob;
 use Illuminate\Http\Request;
 use App\Events\BookingCreated;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BookingRequest;
+use App\Repositories\BookingRepository;
 use App\Http\Resources\v1\BookingResource;
 use App\Http\Resources\v1\BookingCollection;
 
@@ -16,35 +18,18 @@ class BookingController extends Controller
 
     public function index()
     {
-        return new BookingCollection(Booking::all());
+        return new BookingCollection(Booking::where('author_id', auth()->id())->paginate(5));
     }
 
-    public function store(Request $request)
+    public function store(BookingRequest $request, BookingRepository $repository)
     {
-        $this->validate($request, [
-            'property_id'     => ['required'],
-        ]);
+        $booking = $repository->create($request->only([
+            'property_id',
+        ]));
 
-        try {
-            $booking = Booking::create([
-                'property_id'       => $request->input('property_id'),
-                'author_id'         => auth()->id(),
-            ]);
-    
-            event(new BookingCreated($booking));
-            
-            return (new BookingResource($booking))
-            ->response()->json([
-                'message'=>'You have successfully booked this property!'
-            ],204)
+        return (new BookingResource($booking))
+            ->response()
             ->setStatusCode(201);
-
-        } catch (\Exception $e) {
-            \Log::error($e->getMessage());
-            return response()->json([
-                'message'=>'Something went wrong while booking this property!!'
-            ],500);
-        }
     }
 
     public function show(Booking $booking)
@@ -80,7 +65,7 @@ class BookingController extends Controller
             ]);
         } catch (\Exception $e) {
 
-            \Log::error($e->getMessage());
+            Log::error($e->getMessage());
             return response()->json([
                 'message'=>'Something goes wrong while deleting a booking!!'
             ]);

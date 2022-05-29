@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Review;
+use App\Events\ReviewCreated;
 use Illuminate\Support\Facades\DB;
 use App\Repositories\BaseRepository;
 
@@ -23,5 +24,15 @@ class ReviewRepository extends BaseRepository
             event(new ReviewCreated($review));
             return $review;
         });
+    }
+
+    public function update($model, array $attributes)
+    {
+        
+    }
+
+    public function forceDelete($model)
+    {
+        
     }
 }

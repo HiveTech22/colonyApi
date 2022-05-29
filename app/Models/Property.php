@@ -2,14 +2,12 @@
 
 namespace App\Models;
 
-use App\Models\Review;
 use App\Cast\TitleCast;
 use App\Traits\HasAuthor;
 use Illuminate\Support\Str;
 use App\Traits\ModelHelpers;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Property extends Model
@@ -63,16 +61,6 @@ class Property extends Model
         'tiles'         => 'boolean',
         'furnish'           => 'boolean',
     ];
-
-    protected $with = [
-        'reviews'
-    ];
-
-    public function reviews()
-    {
-        return $this->hasMany(Review::class);
-    }
-
 
     public function id(): string
     {
