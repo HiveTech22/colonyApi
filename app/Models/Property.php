@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Review;
 use App\Cast\TitleCast;
 use App\Traits\HasAuthor;
 use Illuminate\Support\Str;
@@ -61,6 +62,15 @@ class Property extends Model
         'tiles'         => 'boolean',
         'furnish'           => 'boolean',
     ];
+
+    protected $with = [
+        'reviews'
+    ];
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
 
     public function id(): string
     {
