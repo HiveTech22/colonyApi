@@ -147,9 +147,19 @@ class Property extends Model
         return $this->longitude;
     }
 
-    public function image(): ?string
+    public function image(): string
     {
         return $this->image;
+    }
+
+    public function image2(): ?string
+    {
+        return $this->image2;
+    }
+
+    public function image3(): ?string
+    {
+        return $this->image3;
     }
 
     public function video(): ?string
