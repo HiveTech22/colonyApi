@@ -11,7 +11,7 @@ class BookingRepository extends BaseRepository
     public function create(array $attributes)
     {
         return DB::transaction(function () use ($attributes) {
-
+            
             $booking = Booking::query()->create([
                 'property_id' => data_get($attributes, 'property_id'),
                 'author_id' => auth()->id(),

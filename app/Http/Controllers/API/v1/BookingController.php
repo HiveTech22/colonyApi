@@ -23,13 +23,21 @@ class BookingController extends Controller
 
     public function store(BookingRequest $request, BookingRepository $repository)
     {
-        $booking = $repository->create($request->only([
-            'property_id',
-        ]));
+        $check = Booking::where('author_id',auth()->id())->where('property_id',$request->property_id)->first();
+        
+        if (!$check) {
+            $booking = $repository->create($request->only([
+                'property_id',
+            ]));
+    
+            return (new BookingResource($booking))
+                ->response()
+                ->setStatusCode(201);
+        }else{
+            return response()->json(['error'=>'You have booked this property already!'], 500);
+        }
 
-        return (new BookingResource($booking))
-            ->response()
-            ->setStatusCode(201);
+        
     }
 
     public function show(Booking $booking)
