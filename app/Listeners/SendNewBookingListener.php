@@ -17,4 +17,3 @@ class SendNewBookingListener
 
     }
 }
-send
