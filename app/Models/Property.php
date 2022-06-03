@@ -49,6 +49,7 @@ class Property extends Model
         'image2',
         'image3',
         'video',
+        'property_category_id',
         'author_id',
     ];
 

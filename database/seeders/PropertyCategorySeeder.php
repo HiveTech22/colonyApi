@@ -43,8 +43,8 @@ class PropertyCategorySeeder extends Seeder
         ]);
     }
 
-    private function createType(string $name, string $icon)
+    private function createType(string $name)
     {
-        return PropertyCategory::factory()->create(compact('name', 'icon'));
+        return PropertyCategory::factory()->create(compact('name'));
     }
 }
