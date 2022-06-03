@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Review;
 use App\Cast\TitleCast;
+use App\Traits\HasUuid;
 use App\Traits\HasAuthor;
 use Illuminate\Support\Str;
 use App\Traits\ModelHelpers;
@@ -16,11 +17,13 @@ class Property extends Model
     use HasFactory;
     use HasAuthor;
     use ModelHelpers;
+    use HasUuid;
     
     const TABLE = 'properties';
     protected $table = self::TABLE;
 
     protected $fillable = [
+        'uuid',
         'title',
         'slug',
         'price',
@@ -49,6 +52,12 @@ class Property extends Model
         'author_id',
     ];
 
+    protected $primaryKey = 'uuid';
+
+    protected $keyType = 'string';
+
+    public $incrementing = false;
+
     protected $casts = [
         'title'  =>  TitleCast::class,
         'frequency'  =>  TitleCast::class,
@@ -63,18 +72,19 @@ class Property extends Model
         'furnish'           => 'boolean',
     ];
 
-    protected $with = [
-        'reviews'
-    ];
-
     public function reviews()
     {
         return $this->hasMany(Review::class);
     }
 
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(PropertyCategory::class, 'property_category_id');
+    }
+
     public function id(): string
     {
-        return (string) $this->id;
+        return (string) $this->uuid;
     }
 
     public function title(): string
@@ -220,6 +230,29 @@ class Property extends Model
     public function park(): bool
     {
         return $this->park;
+    }
+
+    public function scopeSearchResults($query)
+    {
+        return $query->where('isAvailable', true)
+            ->when(request()->filled('search'), function($query) {
+                $query->where(function($query) {
+                    $search = request()->input('search');
+                    $query->where('title', 'LIKE', "%$search%");    
+                });
+            })
+            ->when(request()->filled('frequency'), function($query) {
+                $query->where('frequency', request()->input('frequency'));
+            })
+            ->when(request()->filled('purpose'), function($query) {
+                $query->where('purpose', request()->input('purpose'));
+            })
+            ->when(request()->filled('minPrice') && request()->filled('maxPrice'), function($query) {
+                $query->whereBetween('price', [request()->input('minPrice'), request()->input('maxPrice')]);
+            })
+            ->when(request()->filled('sort'), function($query) {
+                $query->orderBy('created_at', request()->input('sort'));
+            });
     }
 
 }

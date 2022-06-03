@@ -50,7 +50,7 @@ class RouteServiceProvider extends ServiceProvider
 
          //get properties eithe  by id or slug
          Route::bind('property', function($value) {
-            return \App\Models\Property::where('id', $value)
+            return \App\Models\Property::where('uuid', $value)
             ->orWhere('slug', $value)->firstOrFail();
         });
     }

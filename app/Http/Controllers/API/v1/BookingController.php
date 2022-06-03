@@ -23,7 +23,7 @@ class BookingController extends Controller
 
     public function store(BookingRequest $request, BookingRepository $repository)
     {
-        $check = Booking::where('author_id',auth()->id())->where('property_id',$request->property_id)->first();
+        $check = Booking::where('author_id',auth()->id())->where('property_uuid',$request->property_id)->first();
         
         if (!$check) {
             $booking = $repository->create($request->only([

@@ -18,7 +18,7 @@ class Review extends Model
     protected $fillable = [
         'rating',
         'message',
-        'property_id',
+        'property_uuid',
         'author_id'
     ];
 

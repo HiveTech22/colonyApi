@@ -19,7 +19,10 @@ class PropertyController extends Controller
     public function index(Request $request)
     {
         $pageSize = $request->page ?? 5;
-        return new PropertyCollection(Property::query()->where('isAvailable', true)->inRandomOrder()->paginate($pageSize));
+        return new PropertyCollection(Property::with(['reviews'])
+            ->searchResults()
+            ->inRandomOrder()
+            ->paginate($pageSize));
     }
 
 

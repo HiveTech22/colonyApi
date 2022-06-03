@@ -22,7 +22,8 @@ class Booking extends Model
     protected $table = self::TABLE;
 
     protected $fillable = [
-        'property_id',
+        'uuid',
+        'property_uuid',
         'author_id',
         'isAccepted',
         'paymentStatus',
@@ -45,7 +46,7 @@ class Booking extends Model
 
     public function property(): BelongsTo
     {
-        return $this->belongsTo(Property::class);
+        return $this->belongsTo(Property::class,'property_uuid');
     }
 
     public function id(): string

@@ -7,6 +7,7 @@ use Database\Seeders\ReviewSeeder;
 use Database\Seeders\BookingSeeder;
 use Database\Seeders\PropertySeeder;
 use Database\Seeders\UserTableSeeder;
+use Database\Seeders\PropertyCategorySeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -18,8 +19,9 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(UserTableSeeder::class);
+        $this->call(PropertyCategorySeeder::class);
         $this->call(PropertySeeder::class);
-        // $this->call(BookingSeeder::class);
+        $this->call(BookingSeeder::class);
         // $this->call(ReviewSeeder::class);
     }
 }

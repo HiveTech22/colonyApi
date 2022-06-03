@@ -14,7 +14,7 @@ class CreatePropertiesTable extends Migration
     public function up()
     {
         Schema::create('properties', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('uuid')->primary()->unique();
             $table->string('title');
             $table->string('slug')->nullable();
             $table->double('price');
@@ -41,6 +41,7 @@ class CreatePropertiesTable extends Migration
             $table->boolean('laundry')->default(0);
             $table->boolean('isAvailable')->default(0);
             $table->boolean('isVerified')->default(0);
+            $table->foreignId('property_category_id')->constrained('property_categories')->onDelete('cascade');
             $table->foreignId('author_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });

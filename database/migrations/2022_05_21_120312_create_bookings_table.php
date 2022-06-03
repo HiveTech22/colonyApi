@@ -15,7 +15,7 @@ class CreateBookingsTable extends Migration
     {
         Schema::create('bookings', function (Blueprint $table) {
             $table->uuid('uuid')->unique();
-            $table->foreignId('property_id')->constrained('properties')->onDelete('cascade');
+            $table->foreignUuid('property_uuid')->references('uuid')->on('properties')->onDelete('cascade');
             $table->foreignId('author_id')->constrained('users')->onDelete('cascade');
             $table->boolean('isAccepted')->default(0);
             $table->boolean('paymentStatus')->default(0);

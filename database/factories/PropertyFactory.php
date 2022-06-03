@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\User;
 use Illuminate\Support\Str;
+use App\Models\PropertyCategory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class PropertyFactory extends Factory
@@ -20,7 +21,7 @@ class PropertyFactory extends Factory
         return [
             'title'                 => $title,
             'slug'                  => Str::slug($title . '-' . now()->getPreciseTimestamp(4)),
-            'price'                 => $this->faker->numberBetween($min = 1000, $max = 2500),
+            'price'                 => $this->faker->numberBetween($min = 35000, $max = 100000),
             'built'                 => now(),
             'bedroom'               => rand(1, 5),
             'bathroom'              => rand(1, 5),
@@ -43,6 +44,7 @@ class PropertyFactory extends Factory
             'laundry'                   => rand(0, 1),
             'isAvailable'           => rand(0, 1),
             'isVerified'            => rand(0, 1),
+            'property_category_id'  => $attribute['property_category_id'] ?? PropertyCategory::factory(),
             'author_id'               => $attribute['author_id'] ?? User::factory(),
         ];
     }
