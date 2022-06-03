@@ -45,8 +45,9 @@ class PropertyResource extends JsonResource
                 'created_at'    => $this->createdAt()
             ],
             'relationships'     => [
-                // 'review'      => ReviewResource::make($this->reviews),
-                  'agent'      => AgentResource::make($this->author()),
+                'agent'         => AgentResource::make($this->author()),
+                'category'      => CategoryResource::make($this->category),
+                'reviews'       => ReviewResource::collection($this->reviews),
             ],
             'links'             => [
                 'self'          => route('properties.show', $this->id()),

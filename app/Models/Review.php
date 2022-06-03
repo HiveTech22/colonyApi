@@ -37,4 +37,9 @@ class Review extends Model
         return $this->rating;
     }
 
+    public function createdAt(): string
+    {
+        return $this->created_at->format('M, d Y');
+    }
+
 }

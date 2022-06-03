@@ -14,7 +14,7 @@ class ReviewFactory extends Factory
         return [
             'message'              => $this->faker->text(),
             'rating'               => rand(1, 5),
-            'property_id'           => Property::factory(),
+            'property_uuid'           => Property::factory(),
             'author_id'            => User::factory(),
         ];
     }

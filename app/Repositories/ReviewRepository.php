@@ -16,7 +16,7 @@ class ReviewRepository extends BaseRepository
             $review = Review::query()->create([
                 'rating' => data_get($attributes, 'rating'),
                 'message' => data_get($attributes, 'message'),
-                'property_id' => data_get($attributes, 'property_id'),
+                'property_uuid' => data_get($attributes, 'property_id'),
                 'author_id' => auth()->id(),
             ]);
             

@@ -10,6 +10,8 @@ use Illuminate\Support\Str;
 use App\Traits\ModelHelpers;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Property extends Model
@@ -73,9 +75,9 @@ class Property extends Model
         'furnish'           => 'boolean',
     ];
 
-    public function reviews()
+    public function reviews(): HasMany
     {
-        return $this->hasMany(Review::class);
+        return $this->hasMany(Review::class, 'property_uuid');
     }
 
     public function category(): BelongsTo

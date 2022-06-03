@@ -14,7 +14,7 @@ class PropertyCategory extends Model
     protected $table = self::TABLE;
 
     protected $fillable = [
-        'name','icon'
+        'name'
     ];
 
     // protected $with= [
@@ -25,5 +25,16 @@ class PropertyCategory extends Model
     {
         return $this->hasMany(Property::class);
     }
+
+    public function id(): string
+    {
+        return (string) $this->id;
+    }
+
+    public function name(): string
+    {
+        return $this->name;
+    }
+
     
 }

@@ -22,7 +22,7 @@ class ReviewSeeder extends Seeder
                 ->state(new Sequence(
                     fn () => [
                         'author_id'         => $users->random()->id,
-                        'property_id'    => $property->id(),
+                        'property_uuid'    => $property->id(),
                     ],
                 ))
                 ->create();
